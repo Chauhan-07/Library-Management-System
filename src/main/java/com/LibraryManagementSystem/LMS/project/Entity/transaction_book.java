@@ -21,7 +21,7 @@ public class transaction_book {
     // transaction-book contains multiple books
     @ManyToOne
     @JoinColumn(name = "book_id")
-    @JsonIgnore
+   // @JsonIgnore
     private Book book_id;
 
     @OneToOne(mappedBy = "transactionBook_id")

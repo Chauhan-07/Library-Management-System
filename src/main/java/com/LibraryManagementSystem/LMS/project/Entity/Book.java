@@ -32,13 +32,15 @@ public class Book {
     @ManyToOne
 
     @JoinColumn(name="author_id")
+    @JsonBackReference(value="author_manage")
     private Author author;
 
     @Column(name="quantity")
     private int quantity;
 
     @OneToMany(mappedBy = "book_id")
-    @JsonIgnore
+
+    //@JsonIgnore
     private List<transaction_book> transactionBook;
 
    // @OneToMany(mappedBy ="book_id")

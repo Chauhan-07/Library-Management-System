@@ -4,6 +4,7 @@ import com.LibraryManagementSystem.LMS.project.Entity.Book;
 import com.LibraryManagementSystem.LMS.project.Entity.Card;
 import com.LibraryManagementSystem.LMS.project.Entity.ReturnBook;
 import com.LibraryManagementSystem.LMS.project.Entity.transaction_book;
+import com.LibraryManagementSystem.LMS.project.Service.Payment.PaymentService;
 import com.LibraryManagementSystem.LMS.project.Service.ReturnBook.ReturnBookService;
 import com.LibraryManagementSystem.LMS.project.Service.TransactionBook.TBService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,17 @@ public class ReturnBookController {
     private final ReturnBookService returnBookService;
     private final TBService tbService;
 
+    private final PaymentService paymentService;
+
 
     @Autowired
-    public ReturnBookController(ReturnBookService returnBookService, TBService tbService) {
+    public ReturnBookController(ReturnBookService returnBookService, TBService tbService, PaymentService paymentService) {
+
         this.returnBookService = returnBookService;
         this.tbService = tbService;
 
+
+        this.paymentService = paymentService;
     }
 
     @PostMapping("/return")
@@ -38,6 +44,7 @@ public class ReturnBookController {
 
                 int id = tid.getId();
                 tbService.returnBook(id);
+
 
 
 

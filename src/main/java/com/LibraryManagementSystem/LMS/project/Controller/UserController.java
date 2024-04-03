@@ -1,5 +1,6 @@
 package com.LibraryManagementSystem.LMS.project.Controller;
 
+import com.LibraryManagementSystem.LMS.project.DTO.UserDTO;
 import com.LibraryManagementSystem.LMS.project.Entity.Card;
 import com.LibraryManagementSystem.LMS.project.Entity.Customer;
 import com.LibraryManagementSystem.LMS.project.Entity.User;
@@ -83,7 +84,7 @@ public class UserController {
 
             msg = "Registration Successful";
             suc = true;
-            mp.put("user",new User(user.getId(),user.getName(),user.getEmail(),user.getAddress(),user.getContact_no(),user.getRole()));
+            mp.put("user",new UserDTO(user.getId(),user.getName(),user.getEmail(),user.getAddress(),user.getContact_no(),user.getRole().getId()));
 
         }
         else {
@@ -111,7 +112,7 @@ public class UserController {
             {
                 msg="Authentication Successful";
                 suc=true;
-                mp.put("User",new User(user.getId(),user.getName(),user.getEmail(),user.getAddress(),user.getContact_no(),user.getRole()));
+                mp.put("User",new UserDTO(user.getId(),user.getName(),user.getEmail(),user.getAddress(),user.getContact_no(),user.getRole().getId()));
             }
             else {
                 msg="Invalid Credentials";
