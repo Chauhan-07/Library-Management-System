@@ -1,6 +1,9 @@
 package com.LibraryManagementSystem.LMS.project.Controller;
 
+import com.LibraryManagementSystem.LMS.project.DAO.ReturnBookRepo;
+import com.LibraryManagementSystem.LMS.project.Entity.ReturnBook;
 import com.LibraryManagementSystem.LMS.project.Entity.payment;
+import com.LibraryManagementSystem.LMS.project.Entity.transaction;
 import com.LibraryManagementSystem.LMS.project.Service.Payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +19,31 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
+    private final ReturnBook returnBook;
+    private final ReturnBookRepo returnBookRepo;
+
     @Autowired
-    public PaymentController(PaymentService paymentService)
+    public PaymentController(PaymentService paymentService, ReturnBook returnBook, ReturnBookRepo returnBookRepo)
     {
         this.paymentService = paymentService;
+        this.returnBook = returnBook;
+        this.returnBookRepo = returnBookRepo;
     }
 
-    @PostMapping
-    public ResponseEntity<payment> savePayment(@RequestBody payment Payment)
+    @PostMapping ("/{id}")
+    public ResponseEntity<payment> savePayment(@PathVariable int id,@RequestBody payment Payment)
     {
-        payment newPayment = paymentService.savePayment(Payment);
+        int amount =(int)paymentService.calculateFine(id);
+        Optional<ReturnBook> rbook = returnBookRepo.findById(id);
+        transaction transactionId=rbook.get().getTransactionBook_id().getTransaction_id();
+        payment newPayment = new payment();
+        newPayment.setAmount(amount);
+        newPayment.setTransaction_id(transactionId);
+         newPayment.setPayment_date(Payment.getPayment_date());
+        paymentService.savePayment(newPayment);
+//        paymentService.savePayment(Payment);
+
+
         return ResponseEntity.ok(newPayment);
     }
 

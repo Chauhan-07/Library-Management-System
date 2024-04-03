@@ -2,6 +2,7 @@ package com.LibraryManagementSystem.LMS.project.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Component
 @Entity
 @Table(name="return_book")
 public class ReturnBook {
