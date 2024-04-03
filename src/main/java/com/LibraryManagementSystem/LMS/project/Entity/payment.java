@@ -25,12 +25,15 @@ public class payment {
     private LocalDate payment_date;
 
     public payment() {
+        this.payment_date = LocalDate.now();
+
     }
 
     public payment(transaction transaction_id, int amount, LocalDate payment_date) {
         this.transaction_id = transaction_id;
         this.amount = amount;
-        this.payment_date = payment_date;
+       // this.payment_date = payment_date;
+        this.payment_date = LocalDate.now();
     }
 
 

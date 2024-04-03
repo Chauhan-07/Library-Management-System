@@ -73,13 +73,13 @@ public class PaymentService {
 
     public double calculateFine(int id)
     {
-        int finePerDay=5;
+        int finePerDay= 5;
         Optional<ReturnBook> rbook=returnBookRepo.findById(id);
         LocalDate return_date = rbook.get().getReturn_date();
         Date due_date = rbook.get().getTransactionBook_id().getTransaction_id().getDue_date();
         LocalDate dueDate = due_date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         int diffInDays = (int) ChronoUnit.DAYS.between(return_date, dueDate);
-        double fine = diffInDays*finePerDay;
+        double fine = Math.abs(diffInDays*finePerDay);
         return fine;
 
     }
