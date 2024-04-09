@@ -48,11 +48,6 @@ public class ReturnBookController {
         transaction_book tid = returnBook.getTransactionBook_id();
 
                 int id = tid.getId();
-//        int userId = transaction_book.getTransaction_id().getcard_id().getCustomer().getUser().getId();
-////
-//        User user = userService.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-//        Book book = bookService.getBookById(id).orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
-//        userService.returnBook(book);
                 tbService.returnBook(id);
 
 

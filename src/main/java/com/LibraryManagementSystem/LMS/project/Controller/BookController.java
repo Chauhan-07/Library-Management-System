@@ -89,6 +89,19 @@ import java.util.Optional;
             return ResponseEntity.ok("Book returned successfully!");
         }
 
+        @GetMapping("/reserve/{bookId}/{userId}")
+        public ResponseEntity<String> reserveBook(@PathVariable int bookId, @PathVariable int userId) {
+            String message = bookService.reserveBook(bookId, userId);
+            return ResponseEntity.ok(message);
+        }
+
+        @GetMapping("/availableQuantity")
+        public ResponseEntity<Integer> getAvailableQuantity() {
+            int totalQuantity = bookService.getAvailableQuantity();
+            return ResponseEntity.ok(totalQuantity);
+        }
+
+
     }
 
 

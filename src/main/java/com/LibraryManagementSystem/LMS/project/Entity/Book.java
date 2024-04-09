@@ -41,10 +41,20 @@ public class Book {
     @Column(name="reservation")
     private Integer reservation;
 
+
+
+
     @OneToMany(mappedBy = "book_id")
 
     //@JsonIgnore
     private List<transaction_book> transactionBook;
+
+    @ManyToMany
+    @JoinTable(
+            name = "book_reservation",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> reservedUsers;
 
    // @OneToMany(mappedBy ="book_id")
    // private List<transaction_book> transactionBookList;
@@ -52,21 +62,28 @@ public class Book {
        if (quantity > 0) {
            quantity--;
        }
+      else {
+              reservation++;
+
+       }
 
    }
 
     public void returnBook() {
-        quantity++;
+       if(reservation<=0){
+        quantity++;}
+       else{
+           reservation--;}
+
+        if (!reservedUsers.isEmpty()) {
+            // Notify the first user in the list that the book is available
+            User user = reservedUsers.get(0);
+            // Code to notify the user
+            // Remove the user from the reserved list
+            reservedUsers.remove(user);
+        }
     }
 
-//    public void setReservation(Integer reservation) {
-//        if (reservation != null) {
-//            this.reservation = reservation;
-//        } else {
-//
-//            this.reservation = 0;
-//        }
-//    }
 
     public Book(int id) {
         this.id = id;
