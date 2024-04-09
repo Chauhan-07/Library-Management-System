@@ -15,5 +15,10 @@ public interface BookService {
     Optional<List<Book>>  getBookByGenreId(int genreId);
 
     void addOrUpdateBook(Book book);
+
+    String reserveBook(int bookId, int userId);
+
+    int getAvailableQuantity();
+
 }
 

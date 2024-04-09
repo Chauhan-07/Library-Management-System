@@ -30,17 +30,7 @@ public class TBServiceController {
     @Transactional
     public ResponseEntity<transaction_book> saveTransaction_book(@RequestBody transaction_book Transaction_book) {
         int id = Transaction_book.getBook_id().getId(); // Assuming you have an id field in the JSON request body
-     //   int userId = Transaction_book.getTransaction_id().getcard_id().getCustomer().getUser().getId();
-//
-//        transaction transactionId= Transaction_book.getTransaction_id();
-//        Card  cardId  = transactionId.getcard_id();
-//        Customer customerId=cardId.getCustomer();
-//        User userid=customerId.getUser();
-//        int UserId=userid.getId();
-//
-//        User user = userService.findById(UserId).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + UserId));
-//        Book book = bookService.getBookById(id).orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
-//        userService.reserveBook(user, book);
+
         tbService.issueBook(id);
         transaction_book newTransaction_book = tbService.saveTransaction_Book(Transaction_book);
         return ResponseEntity.ok(newTransaction_book);
