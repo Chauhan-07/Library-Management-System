@@ -1,5 +1,6 @@
 package com.LibraryManagementSystem.LMS.project.Controller;
 
+import com.LibraryManagementSystem.LMS.project.DAO.PaymentRepository;
 import com.LibraryManagementSystem.LMS.project.DAO.ReturnBookRepo;
 import com.LibraryManagementSystem.LMS.project.Entity.ReturnBook;
 import com.LibraryManagementSystem.LMS.project.Entity.payment;
@@ -21,6 +22,8 @@ public class PaymentController {
 
     private final ReturnBook returnBook;
     private final ReturnBookRepo returnBookRepo;
+
+    private PaymentRepository paymentRepository;
 
     @Autowired
     public PaymentController(PaymentService paymentService, ReturnBook returnBook, ReturnBookRepo returnBookRepo)
@@ -72,7 +75,16 @@ public class PaymentController {
         paymentService.deletePayment(payment_id);
         return ResponseEntity.ok("Payment deleted successfully!");
     }
+    @GetMapping("/totalFine")
+    public int getTotalFine() {
+        return paymentService.getTotalFine();
+    }
 
+
+    @GetMapping("/totalFineForUser/{user_id}")
+    public Integer getTotalFineForUser(@PathVariable int user_id) {
+        return paymentService.getTotalFineForUser(user_id);
+    }
 }
 
 
