@@ -6,6 +6,7 @@ import com.LibraryManagementSystem.LMS.project.Entity.transaction_book;
 import com.LibraryManagementSystem.LMS.project.Service.Book.BookService;
 import com.LibraryManagementSystem.LMS.project.Service.TransactionBook.TBService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,8 @@ import java.util.Optional;
         @Autowired
         private BookService bookService;
         private final TBService tbService;
+
+        int totalBooks=0;
 
         @Autowired
         public BookController(BookService bookService, TBService tbService) {
@@ -44,9 +47,15 @@ import java.util.Optional;
 //        }
         @PostMapping("/addOrUpdate")
         public ResponseEntity<String> addOrUpdateBook(@RequestBody Book book) {
-            bookService.addOrUpdateBook(book);
 
+            bookService.addOrUpdateBook(book);
+            int quantity = book.getQuantity();
+            totalBooks=totalBooks+quantity;
             return ResponseEntity.ok("Book added or updated successfully");
+        }
+        @GetMapping("/totalBooks")
+        public ResponseEntity<Integer> getTotalBooks(){
+            return ResponseEntity.ok(totalBooks);
         }
         @GetMapping("/{id}")
         public Book getBookById(@PathVariable int id)

@@ -8,6 +8,7 @@ import com.LibraryManagementSystem.LMS.project.Entity.Book;
 import com.LibraryManagementSystem.LMS.project.Entity.Genre;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public class BookServiceImpl implements BookService{
     @Autowired
     private GenreDao genreDao;
 
+
+
     @Autowired
     public BookServiceImpl(BookDao bookDao,AuthorDao authorDao,GenreDao genreDao) {
         this.bookDao = bookDao;
@@ -35,6 +38,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public Book create(Book book) {
+
         book.setReservation(0);
         return bookDao.save(book);
     }
