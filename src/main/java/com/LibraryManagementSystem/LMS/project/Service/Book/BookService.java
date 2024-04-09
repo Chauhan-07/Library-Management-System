@@ -20,5 +20,6 @@ public interface BookService {
 
     int getAvailableQuantity();
 
+    int getTotalBooks();
 }
 

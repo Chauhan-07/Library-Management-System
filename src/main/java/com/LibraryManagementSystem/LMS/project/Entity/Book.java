@@ -24,6 +24,9 @@ public class Book {
     @Column(name="title")
     private String title;
 
+    @Column(name="stock")
+    private Integer stock;
+
     @ManyToOne
 
     @JoinColumn(name="genre_id")

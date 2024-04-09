@@ -10,15 +10,15 @@ import com.LibraryManagementSystem.LMS.project.Entity.Genre;
 import com.LibraryManagementSystem.LMS.project.Entity.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @Transactional
-public class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookDao bookDao;
@@ -35,10 +35,10 @@ public class BookServiceImpl implements BookService{
     private UserRepo userRepo;
 
     @Autowired
-    public BookServiceImpl(BookDao bookDao,AuthorDao authorDao,GenreDao genreDao) {
+    public BookServiceImpl(BookDao bookDao, AuthorDao authorDao, GenreDao genreDao) {
         this.bookDao = bookDao;
-        this.authorDao=authorDao;
-        this.genreDao=genreDao;
+        this.authorDao = authorDao;
+        this.genreDao = genreDao;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public Optional<List<Book>> getBookByGenreId(int genreId) {
-        Optional<Genre> genreOptional=genreDao.findById(genreId);
+        Optional<Genre> genreOptional = genreDao.findById(genreId);
 
         return genreOptional.map(Genre::getBookList);
     }
@@ -77,22 +77,23 @@ public class BookServiceImpl implements BookService{
     @Override
     public void addOrUpdateBook(Book book) {
         if (book == null || book.getAuthor() == null || book.getAuthor().getId() == 0) {
-                throw new IllegalArgumentException("Book or author is null");
-            }
-
-            Book existingBook = bookDao.findByAuthorIdAndGenreIdAndTitle(
-                    book.getAuthor().getId(),
-                    book.getGenre().getId(),
-                    book.getTitle());
-
-            if (existingBook != null) {
-                existingBook.setQuantity(existingBook.getQuantity() + book.getQuantity());
-                bookDao.save(existingBook);
-            } else {
-                bookDao.save(book);
-            }
+            throw new IllegalArgumentException("Book or author is null");
         }
 
+        Book existingBook = bookDao.findByAuthorIdAndGenreIdAndTitle(
+                book.getAuthor().getId(),
+                book.getGenre().getId(),
+                book.getTitle());
+
+        if (existingBook != null) {
+            existingBook.setQuantity(existingBook.getQuantity() + book.getQuantity());
+            existingBook.setStock(existingBook.getQuantity()); // set the value of stock to be the same as quantity
+            bookDao.save(existingBook);
+        } else {
+            book.setStock(book.getQuantity()); // set the value of stock to be the same as quantity
+            bookDao.save(book);
+        }
+    }
 
     @Override
     public String reserveBook(int bookId, int userId) {
@@ -106,7 +107,7 @@ public class BookServiceImpl implements BookService{
                     User user = userOptional.get();
                     book.getReservedUsers().add(user);
                     bookDao.save(book);
-                    book.setReservation(book.getReservation()+1);
+                    book.setReservation(book.getReservation() + 1);
 
                     return "Book is reserved for you. We will notify you when it becomes available.";
                 } else {
@@ -126,7 +127,20 @@ public class BookServiceImpl implements BookService{
         return bookDao.findAll().stream().mapToInt(Book::getQuantity).sum();
     }
 
+    @Override
+    public int getTotalBooks() {
+        List<Book> books = bookDao.findAll();
+        int totalStock = 0;
 
+        for (Book book : books) {
+            Integer stock = book.getStock(); // Use wrapper Integer instead of primitive int
+            if (Objects.nonNull(stock)) { // Check for null value
+                totalStock += stock; // Add to total only if stock is not null
+            }
+        }
+
+        return totalStock;
     }
+}
 
 
