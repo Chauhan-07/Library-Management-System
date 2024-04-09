@@ -1,12 +1,12 @@
 package com.LibraryManagementSystem.LMS.project.Controller;
 
-import com.LibraryManagementSystem.LMS.project.Entity.Book;
-import com.LibraryManagementSystem.LMS.project.Entity.Card;
-import com.LibraryManagementSystem.LMS.project.Entity.ReturnBook;
-import com.LibraryManagementSystem.LMS.project.Entity.transaction_book;
+import com.LibraryManagementSystem.LMS.project.Entity.*;
+import com.LibraryManagementSystem.LMS.project.Service.Book.BookService;
 import com.LibraryManagementSystem.LMS.project.Service.Payment.PaymentService;
 import com.LibraryManagementSystem.LMS.project.Service.ReturnBook.ReturnBookService;
 import com.LibraryManagementSystem.LMS.project.Service.TransactionBook.TBService;
+import com.LibraryManagementSystem.LMS.project.Service.User.UserServiceImpls;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +22,11 @@ public class ReturnBookController {
 
     private final ReturnBookService returnBookService;
     private final TBService tbService;
+    private UserServiceImpls userService;
+    private BookService bookService;
+
+    private transaction_book transaction_book;
+
 
     private final PaymentService paymentService;
 
@@ -43,6 +48,11 @@ public class ReturnBookController {
         transaction_book tid = returnBook.getTransactionBook_id();
 
                 int id = tid.getId();
+//        int userId = transaction_book.getTransaction_id().getcard_id().getCustomer().getUser().getId();
+////
+//        User user = userService.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+//        Book book = bookService.getBookById(id).orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
+//        userService.returnBook(book);
                 tbService.returnBook(id);
 
 

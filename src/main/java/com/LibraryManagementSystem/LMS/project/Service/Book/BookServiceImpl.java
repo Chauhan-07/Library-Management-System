@@ -35,6 +35,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public Book create(Book book) {
+        book.setReservation(0);
         return bookDao.save(book);
     }
 

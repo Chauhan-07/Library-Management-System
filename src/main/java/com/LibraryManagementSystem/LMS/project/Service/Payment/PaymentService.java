@@ -83,4 +83,22 @@ public class PaymentService {
         return fine;
 
     }
+
+    public int getTotalFine() {
+        int totalFine = 0;
+        List<payment> payments = paymentRepository.findAll();
+        for (payment payment : payments) {
+            totalFine += payment.getAmount();
+        }
+        return totalFine;
+    }
+
+    public int getTotalFineForUser(int userId) {
+        List<payment> allPayments = paymentRepository.findAll();
+        int totalFine = allPayments.stream()
+                .filter(payment -> payment.getTransaction_id().getcard_id().getCustomer().getUser().getId() == userId)
+                .mapToInt(payment -> payment.getAmount())
+                .sum();
+        return totalFine;
+    }
 }

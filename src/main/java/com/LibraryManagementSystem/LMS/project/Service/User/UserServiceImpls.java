@@ -1,12 +1,18 @@
 package com.LibraryManagementSystem.LMS.project.Service.User;
 
+import com.LibraryManagementSystem.LMS.project.DAO.ReservationRepository;
 import com.LibraryManagementSystem.LMS.project.DAO.UserRepo;
+import com.LibraryManagementSystem.LMS.project.Entity.Book;
+import com.LibraryManagementSystem.LMS.project.Entity.Reservation;
 import com.LibraryManagementSystem.LMS.project.Entity.User;
 import com.LibraryManagementSystem.LMS.project.Entity.User;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +23,10 @@ public class UserServiceImpls implements UserService{
 
     @Autowired
     private UserRepo userRepo;
+    private JavaMailSender mailSender;
+
+    private ReservationRepository reservationRepository;
+    private User user;
 
     @Autowired
     public UserServiceImpls(UserRepo userRepo)
@@ -54,6 +64,25 @@ public class UserServiceImpls implements UserService{
         return userRepo.save(existingUser);
         
     }
+    public void reserveBook(User user,Book book) {
+        if (book.getQuantity() > 0) {
+            book.setQuantity(book.getQuantity() - 1);
+        } else {
+            book.setReservation(book.getReservation() + 1);
+            Reservation reservation = new Reservation(user, book);
+            reservationRepository.save(reservation);
+        }
+    }
+    public void returnBook(Book book) {
+        if (book.getReservation() > 0) {
+            book.setReservation(book.getReservation() - 1);
+            if (book.getReservation() == 0) {
+                book.setQuantity(book.getQuantity() + 1);
+            }
+            Optional<Reservation> reservation = reservationRepository.findByUserAndBook(this, book);
+            reservation.ifPresent(reservationRepository::delete);
+        }
+    }
 
     @Override
     public void deleteUser(int id) {
@@ -65,6 +94,15 @@ public class UserServiceImpls implements UserService{
             throw new EntityNotFoundException("Customer with id " + id + " not found");
         }
     }
+
+    public void notifyUser(Book book) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(user.getEmail());
+        message.setSubject("Book Availability Notification");
+        message.setText("The book " + book.getTitle() + " is now available for borrowing.");
+        mailSender.send(message);
+    }
+
 
     @Override
     public User getUserByEmail(String email) {

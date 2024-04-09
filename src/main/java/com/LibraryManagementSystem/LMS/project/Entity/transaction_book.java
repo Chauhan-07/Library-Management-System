@@ -14,12 +14,12 @@ public class transaction_book {
     private int id;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "transaction_id")
     private transaction transaction_id;
 
     // transaction-book contains multiple books
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
    // @JsonIgnore
     private Book book_id;

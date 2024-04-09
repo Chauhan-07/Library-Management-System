@@ -38,6 +38,9 @@ public class Book {
     @Column(name="quantity")
     private int quantity;
 
+    @Column(name="reservation")
+    private Integer reservation;
+
     @OneToMany(mappedBy = "book_id")
 
     //@JsonIgnore
@@ -56,7 +59,14 @@ public class Book {
         quantity++;
     }
 
-
+//    public void setReservation(Integer reservation) {
+//        if (reservation != null) {
+//            this.reservation = reservation;
+//        } else {
+//
+//            this.reservation = 0;
+//        }
+//    }
 
     public Book(int id) {
         this.id = id;
