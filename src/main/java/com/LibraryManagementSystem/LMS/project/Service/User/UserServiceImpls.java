@@ -46,15 +46,14 @@ public class UserServiceImpls implements UserService{
     }
 
     @Override
-    public User updateUser(int id, User updatedUser) {
-        User existingUser = userRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+    public User updateUser(String email, User updatedUser) {
+        User existingUser = userRepo.findByEmail(email);
+                   //.orElseThrow(() -> new EntityNotFoundException("User not found with email: " + email));
 
         // Update the existing User with the new data
-        existingUser.setName(updatedUser.getName());
+       // existingUser.setName(updatedUser.getName());
         existingUser.setEmail(updatedUser.getEmail());
         existingUser.setPassword(updatedUser.getPassword());
-
 
         // Save the updated User
         return userRepo.save(existingUser);

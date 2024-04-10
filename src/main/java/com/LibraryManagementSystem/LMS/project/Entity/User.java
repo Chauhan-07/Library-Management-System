@@ -1,5 +1,6 @@
 package com.LibraryManagementSystem.LMS.project.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,6 +38,7 @@ public class User {
     private Role role;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Customer customer;
 
     public User(int id, String name, String email, String address, String contact_no,Role role) {

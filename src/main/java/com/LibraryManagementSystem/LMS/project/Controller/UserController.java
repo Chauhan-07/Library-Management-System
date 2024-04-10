@@ -139,9 +139,9 @@ public class UserController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User updatedUser) {
-        User updated = userService.updateUser(id, updatedUser);
+    @PutMapping("/{email}")
+    public ResponseEntity<User> updateUser(@PathVariable String email, @RequestBody User updatedUser) {
+        User updated = userService.updateUser(email, updatedUser);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")

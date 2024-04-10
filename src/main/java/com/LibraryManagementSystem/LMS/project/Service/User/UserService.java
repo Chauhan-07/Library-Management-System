@@ -14,7 +14,7 @@ public interface UserService {
 
     Optional<User> findById(int id);
 
-    User updateUser(int id, User user);
+    User updateUser(String email, User user);
 
     void deleteUser(int id);
 

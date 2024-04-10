@@ -15,6 +15,7 @@ public class payment {
     private int payment_id;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "transaction_id")
     private transaction transaction_id;
 

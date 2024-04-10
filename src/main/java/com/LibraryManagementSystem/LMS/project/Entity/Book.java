@@ -49,7 +49,7 @@ public class Book {
 
     @OneToMany(mappedBy = "book_id")
 
-    //@JsonIgnore
+    @JsonIgnore
     private List<transaction_book> transactionBook;
 
     @ManyToMany
