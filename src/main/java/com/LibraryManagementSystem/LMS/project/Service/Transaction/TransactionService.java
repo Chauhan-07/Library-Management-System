@@ -53,6 +53,10 @@ public class TransactionService {
         }
     }
 
+
+    public int getCountOfTransactionByCard(int cardId) {
+        return transactionRepository.countTransactionsByCard_id(cardId);
+    }
     // delete the transaction by  id
 
     public void deleteTransaction(int id)
