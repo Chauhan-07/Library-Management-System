@@ -41,6 +41,10 @@ public class CardServiceImpls implements CardService {
         return cardRepository.countActiveCards();
     }
 
+    @Override
+    public Optional<Card> getCardByCustomerId(int customerId) {
+        return Optional.ofNullable(cardRepository.findCardByCustomerId(customerId));
+    }
 
 
     @Override

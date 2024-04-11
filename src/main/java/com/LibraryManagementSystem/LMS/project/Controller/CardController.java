@@ -68,6 +68,13 @@ public class CardController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<Card> getCardByCustomerId(@PathVariable int customerId) {
+        Optional<Card> card = cardService.getCardByCustomerId(customerId);
+        return card.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
 
 
 

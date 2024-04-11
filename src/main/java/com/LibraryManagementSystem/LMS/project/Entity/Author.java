@@ -1,6 +1,7 @@
 package com.LibraryManagementSystem.LMS.project.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +25,8 @@ public class Author {
     private String name;
 
     @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
-   @JsonManagedReference(value="author_manage")
+  // @JsonManagedReference(value="author_manage")
+    @JsonIgnore
     private List<Book> bookList=new ArrayList<>();
 
     public Author(int id) {

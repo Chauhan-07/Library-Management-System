@@ -35,7 +35,7 @@ public class Book {
     @ManyToOne
 
     @JoinColumn(name="author_id")
-    @JsonBackReference(value="author_manage")
+  //  @JsonBackReference(value="author_manage")
     private Author author;
 
     @Column(name="quantity")

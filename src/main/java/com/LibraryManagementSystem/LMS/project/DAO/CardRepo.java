@@ -11,4 +11,6 @@ public interface CardRepo extends JpaRepository<Card,Integer> {
     @Query("SELECT COUNT(c) FROM Card c WHERE c.status = true")
     long countActiveCards();
 
+    Card findCardByCustomerId(int customerId);
+
 }

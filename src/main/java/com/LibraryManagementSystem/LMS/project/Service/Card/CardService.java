@@ -11,5 +11,6 @@ public interface CardService {
     Optional<Card> getCardById(int cardId);
     long countActiveCards();
 
+    Optional<Card> getCardByCustomerId(int customerId);
 }
 
