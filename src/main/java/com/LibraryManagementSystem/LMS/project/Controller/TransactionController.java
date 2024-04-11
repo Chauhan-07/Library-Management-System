@@ -66,6 +66,11 @@ public class TransactionController {
         transactionService.deleteTransaction(id);
     }
 
+    @GetMapping("/TransactionByCardCount/{cardId}")
+    public ResponseEntity<Integer> getCountOfTransactionByCard(@PathVariable int cardId) {
+        int borrowedBooksCount = transactionService.getCountOfTransactionByCard(cardId);
+        return ResponseEntity.ok(borrowedBooksCount);
+    }
 
 }
 

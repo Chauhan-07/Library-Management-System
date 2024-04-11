@@ -94,7 +94,9 @@ public class TBService {
 
         bookdao.save(book); // Save the updated book
     }
-
+    public int getCountOfTransactionBookByCard(int cardId) {
+        return tbRepository.countTransactionsBooksByCard_id(cardId);
+    }
 
     }
 

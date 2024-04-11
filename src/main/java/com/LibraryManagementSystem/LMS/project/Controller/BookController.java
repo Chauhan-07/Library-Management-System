@@ -4,6 +4,7 @@ import com.LibraryManagementSystem.LMS.project.Entity.Book;
 import com.LibraryManagementSystem.LMS.project.Entity.ReturnBook;
 import com.LibraryManagementSystem.LMS.project.Entity.transaction_book;
 import com.LibraryManagementSystem.LMS.project.Service.Book.BookService;
+import com.LibraryManagementSystem.LMS.project.Service.Transaction.TransactionService;
 import com.LibraryManagementSystem.LMS.project.Service.TransactionBook.TBService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,12 +26,15 @@ public class BookController {
     private BookService bookService;
     private final TBService tbService;
 
+    private final TransactionService transactionService;
+
 
 
     @Autowired
-    public BookController(BookService bookService, TBService tbService) {
+    public BookController(BookService bookService, TBService tbService, TransactionService transactionService) {
         this.bookService = bookService;
         this.tbService = tbService;
+        this.transactionService = transactionService;
     }
     @GetMapping
     public ResponseEntity<List<Book>> getAllBook()
@@ -109,7 +113,11 @@ public class BookController {
         int borrowedBooks = totalStock - bookService.getAvailableQuantity();
         return ResponseEntity.ok(borrowedBooks);
     }
-
+    @GetMapping("/TransactionBookByCardCount/{cardId}")
+    public ResponseEntity<Integer> getCountOfTransactionByCard(@PathVariable int cardId) {
+        int borrowedBooksCount = tbService.getCountOfTransactionBookByCard(cardId);
+        return ResponseEntity.ok(borrowedBooksCount);
+    }
 }
 
 
