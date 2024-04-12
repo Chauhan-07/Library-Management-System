@@ -17,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -98,7 +99,7 @@ public class TBService {
         return tbRepository.countTransactionsBooksByCard_id(cardId);
     }
 
-    public List<Book> getBookIdByTransactionId(List<Integer> transactionId) {
+    public List<Map<String,Object>> getBookIdByTransactionId(List<Integer> transactionId) {
         return tbRepository.getBookIdByTransactionId(transactionId);
     }
 }

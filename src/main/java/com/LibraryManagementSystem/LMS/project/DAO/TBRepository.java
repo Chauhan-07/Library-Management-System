@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface TBRepository extends JpaRepository<transaction_book,Integer> {
@@ -15,8 +16,8 @@ public interface TBRepository extends JpaRepository<transaction_book,Integer> {
     int countTransactionsBooksByCard_id(@Param("cardId") int cardId);
 
 
-    @Query("SELECT t.book_id FROM transaction_book t WHERE t.transaction_id.id IN (?1)")
-    List<Book> getBookIdByTransactionId(List<Integer> transactionId);
+    @Query("SELECT t.book_id as book, count(*) as number FROM transaction_book t WHERE t.transaction_id.id IN (?1) group by t.book_id")
+    List<Map<String,Object>> getBookIdByTransactionId(List<Integer> transactionId);
 
 
 }

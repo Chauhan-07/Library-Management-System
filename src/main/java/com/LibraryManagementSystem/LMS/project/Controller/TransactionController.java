@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -77,10 +78,10 @@ public class TransactionController {
         return ResponseEntity.ok(borrowedBooksCount);
     }
     @GetMapping("/TransactionByCardId/{cardId}")
-    public ResponseEntity<List<Book>> getTransactionByCardId(@PathVariable int cardId)
+    public ResponseEntity< List<Map<String,Object>>> getTransactionByCardId(@PathVariable int cardId)
     {
         List<Integer> transaction = transactionService.getTransactionByCardId(cardId);
-        List<Book> transactionBook = tbService.getBookIdByTransactionId(transaction);
+        List<Map<String,Object>>  transactionBook = tbService.getBookIdByTransactionId(transaction);
 
         return ResponseEntity.ok(transactionBook);
     }
