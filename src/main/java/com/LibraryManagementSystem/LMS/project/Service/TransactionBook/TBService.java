@@ -37,9 +37,8 @@ public class TBService {
         this.returnBookRepo = returnBookRepo;
     }
 
-    public transaction_book saveTransaction_Book(transaction_book transaction_book)
-    {
-        return  tbRepository.save(transaction_book);
+    public transaction_book saveTransaction_Book(transaction_book transaction_book) {
+        return tbRepository.save(transaction_book);
     }
 
     public List<transaction_book> getAllTransaction_Book() {
@@ -94,10 +93,14 @@ public class TBService {
 
         bookdao.save(book); // Save the updated book
     }
+
     public int getCountOfTransactionBookByCard(int cardId) {
         return tbRepository.countTransactionsBooksByCard_id(cardId);
     }
 
+    public List<Book> getBookIdByTransactionId(List<Integer> transactionId) {
+        return tbRepository.getBookIdByTransactionId(transactionId);
     }
+}
 
 

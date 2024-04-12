@@ -1,7 +1,9 @@
 package com.LibraryManagementSystem.LMS.project.Controller;
 
+import com.LibraryManagementSystem.LMS.project.Entity.Book;
 import com.LibraryManagementSystem.LMS.project.Entity.transaction;
 import com.LibraryManagementSystem.LMS.project.Service.Transaction.TransactionService;
+import com.LibraryManagementSystem.LMS.project.Service.TransactionBook.TBService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,12 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
+    private final TBService tbService;
+
     @Autowired
-    public TransactionController(TransactionService transactionService) {
+    public TransactionController(TransactionService transactionService, TBService tbService) {
         this.transactionService = transactionService;
+        this.tbService = tbService;
     }
 
     // save the transaction
@@ -70,6 +75,14 @@ public class TransactionController {
     public ResponseEntity<Integer> getCountOfTransactionByCard(@PathVariable int cardId) {
         int borrowedBooksCount = transactionService.getCountOfTransactionByCard(cardId);
         return ResponseEntity.ok(borrowedBooksCount);
+    }
+    @GetMapping("/TransactionByCardId/{cardId}")
+    public ResponseEntity<List<Book>> getTransactionByCardId(@PathVariable int cardId)
+    {
+        List<Integer> transaction = transactionService.getTransactionByCardId(cardId);
+        List<Book> transactionBook = tbService.getBookIdByTransactionId(transaction);
+
+        return ResponseEntity.ok(transactionBook);
     }
 
 }

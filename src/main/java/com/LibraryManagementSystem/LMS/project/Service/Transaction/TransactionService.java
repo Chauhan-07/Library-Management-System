@@ -63,4 +63,9 @@ public class TransactionService {
     {
         transactionRepository.deleteById(id);
     }
+
+    public List<Integer> getTransactionByCardId(int cardId)
+    {
+        return transactionRepository.findTransactionByCard_id(cardId);
+    }
 }
