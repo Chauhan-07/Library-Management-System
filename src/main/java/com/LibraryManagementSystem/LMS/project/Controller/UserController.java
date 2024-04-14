@@ -158,7 +158,9 @@ public class UserController {
 
         List<transaction_book> transactionBooks = tbService.getAllTransaction_Book();
         for (transaction_book transactionBook : transactionBooks) {
-            tbService.deleteTransactionBook(transactionBook.getId());
+            if (transactionBook.getTransaction_id().getcard_id().getCustomer().getUser().getId() == id) {
+                tbService.deleteTransactionBook(transactionBook.getId());
+            }
         }
 
         userService.deleteUser(id);
