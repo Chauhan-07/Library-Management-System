@@ -1,5 +1,6 @@
 package com.LibraryManagementSystem.LMS.project.Controller;
 
+import com.LibraryManagementSystem.LMS.project.DTO.TransactionDetailsDTO;
 import com.LibraryManagementSystem.LMS.project.Entity.*;
 import com.LibraryManagementSystem.LMS.project.Service.Book.BookService;
 import com.LibraryManagementSystem.LMS.project.Service.TransactionBook.TBService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -46,6 +48,21 @@ public class TBServiceController {
 //        transaction_book updatedTransactionBook = tbService.updateTransactionBook(id, transaction_book);
 //        return ResponseEntity.ok(updatedTransactionBook);
 //    }
+    @GetMapping("/allTransactionDetails")
+    public List<TransactionDetailsDTO> getTransactionDetails() {
+       List<transaction_book> l= tbService.getAllTransaction_Book();
+       List<TransactionDetailsDTO> transactionDetailsDTOList = new ArrayList<>();
+
+       for(transaction_book t:l)
+       {
+           TransactionDetailsDTO transactionDetailsDTO = new TransactionDetailsDTO();
+            transactionDetailsDTO.setBook_object(t.getBook_id());
+            transactionDetailsDTO.setTransaction_object(t.getTransaction_id());
+            transactionDetailsDTO.setUser_name(t.getTransaction_id().getcard_id().getCustomer().getUser().getName());
+            transactionDetailsDTOList.add(transactionDetailsDTO);
+       }
+          return transactionDetailsDTOList;
+    }
 
 
 

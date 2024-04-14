@@ -101,4 +101,5 @@ public class PaymentService {
                 .sum();
         return totalFine;
     }
+
 }

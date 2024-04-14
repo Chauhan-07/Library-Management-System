@@ -4,6 +4,7 @@ import com.LibraryManagementSystem.LMS.project.DAO.BookDao;
 import com.LibraryManagementSystem.LMS.project.DAO.ReturnBookRepo;
 import com.LibraryManagementSystem.LMS.project.DAO.TBRepository;
 import com.LibraryManagementSystem.LMS.project.DAO.TransactionRepository;
+import com.LibraryManagementSystem.LMS.project.DTO.TransactionDetailsDTO;
 import com.LibraryManagementSystem.LMS.project.Entity.Book;
 import com.LibraryManagementSystem.LMS.project.Entity.ReturnBook;
 import com.LibraryManagementSystem.LMS.project.Entity.transaction;
@@ -102,6 +103,7 @@ public class TBService {
     public List<Map<String,Object>> getBookIdByTransactionId(List<Integer> transactionId) {
         return tbRepository.getBookIdByTransactionId(transactionId);
     }
+    //public List<TransactionDetailsDTO> getTransactionDetails()
 }
 
 

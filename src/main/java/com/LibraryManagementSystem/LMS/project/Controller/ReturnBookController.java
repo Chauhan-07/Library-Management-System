@@ -50,10 +50,6 @@ public class ReturnBookController {
                 int id = tid.getId();
                 tbService.returnBook(id);
 
-
-
-
-
         ReturnBook returnbook = returnBookService.save(returnBook);
         return new ResponseEntity<>(returnbook, HttpStatus.CREATED);
 }
