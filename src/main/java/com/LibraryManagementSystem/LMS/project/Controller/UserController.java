@@ -4,9 +4,12 @@ import com.LibraryManagementSystem.LMS.project.DTO.UserDTO;
 import com.LibraryManagementSystem.LMS.project.Entity.Card;
 import com.LibraryManagementSystem.LMS.project.Entity.Customer;
 import com.LibraryManagementSystem.LMS.project.Entity.User;
+import com.LibraryManagementSystem.LMS.project.Entity.transaction_book;
 import com.LibraryManagementSystem.LMS.project.Service.Card.CardService;
 import com.LibraryManagementSystem.LMS.project.Service.Customer.CustomerService;
+import com.LibraryManagementSystem.LMS.project.Service.TransactionBook.TBService;
 import com.LibraryManagementSystem.LMS.project.Service.User.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,15 +31,19 @@ public class UserController {
     private CustomerService customerService;
 
     @Autowired
+    private TBService tbService;
+
+    @Autowired
     private CardService cardService;
 
 
     @Autowired
-    public UserController(UserService userService,CustomerService customerService,CardService cardService)
+    public UserController(UserService userService,CustomerService customerService,CardService cardService, TBService tbService)
     {
         this.userService=userService;
         this.customerService=customerService;
         this.cardService=cardService;
+        this.tbService=tbService;
     }
 
 //    @PostMapping
@@ -146,7 +153,14 @@ public class UserController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable int id) {
-        // Invoke the delete method from the service layer
+        User user = userService.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id " + id));
+
+        List<transaction_book> transactionBooks = tbService.getAllTransaction_Book();
+        for (transaction_book transactionBook : transactionBooks) {
+            tbService.deleteTransactionBook(transactionBook.getId());
+        }
+
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
