@@ -50,13 +50,13 @@ public class BookController {
 //            return new ResponseEntity<>(b, HttpStatus.CREATED);
 //        }
     @PostMapping("/addOrUpdate")
-    public ResponseEntity<String> addOrUpdateBook(@RequestBody Book book) {
+    public void addOrUpdateBook(@RequestBody Book book) {
 
         bookService.addOrUpdateBook(book);
         int quantity = book.getQuantity();
         book.setStock(book.getQuantity());
         //totalBooks=totalBooks+quantity;
-        return ResponseEntity.ok("Book added or updated successfully");
+        //return ResponseEntity.ok("Book added or updated successfully");
     }
     int totalStock;
     @GetMapping("/totalBooks")
